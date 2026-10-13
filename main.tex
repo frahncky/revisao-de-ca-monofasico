@@ -16,8 +16,10 @@
 
 \pgfplotsset{compat=1.18}
 \usetikzlibrary{arrows.meta,calc,angles,quotes}
-\geometry{margin=2.1cm}
+\geometry{top=1.8cm,bottom=2cm,left=2cm,right=2cm}
 \sisetup{output-decimal-marker={,}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.2em}
 
 \pagestyle{fancy}
 \fancyhf{}
@@ -26,20 +28,26 @@
 \cfoot{\thepage}
 \setlength{\headheight}{15pt}
 
-\setlist[enumerate]{leftmargin=*,itemsep=1.15em}
+\setlist[enumerate]{leftmargin=*,itemsep=0.9em,topsep=0.4em}
 \newcommand{\graus}{^\circ}
-\newcommand{\gabarito}{\subsection*{Gabarito}}
+\newcommand{\gabarito}{\vspace{0.6em}\hrule\vspace{0.5em}\subsection*{Respostas}\vspace{-0.3em}}
 
 \begin{document}
 
 \begin{center}
-{\Large\textbf{Lista de Exercícios — Revisão de Circuitos CA Monofásicos}}\\[0.6em]
-\textbf{Aluno(a):} \rule{9cm}{0.4pt}\hfill
-\textbf{Data:} \rule{3cm}{0.4pt}
+\textbf{INSTITUTO FEDERAL DO MARANHÃO — CAMPUS SÃO LUÍS/MONTE CASTELO}\\
+\textbf{Departamento de Eletroeletrônica — DEE}\\[0.55em]
+{\Large\textbf{Lista de Exercícios — Revisão de Circuitos CA Monofásicos}}
 \end{center}
 
-\vspace{0.5em}
-\noindent\textbf{Considere valores eficazes (RMS) para grandezas fasoriais, salvo indicação contrária.}
+\vspace{0.45em}
+\textbf{Aluno(a):} \rule{8.2cm}{0.4pt}\hfill
+\textbf{Data:} \rule{2.8cm}{0.4pt}
+
+\textbf{Curso/Turma:} \rule{7cm}{0.4pt}
+
+\vspace{0.35em}
+\textbf{Orientações:} apresente os cálculos e indique as unidades. Considere valores eficazes (RMS) para grandezas fasoriais, salvo indicação contrária.
 
 % ============================================================
 \section{Tipos de ondas}
@@ -111,13 +119,10 @@ A partir exclusivamente do gráfico, determine:
 \addplot[thick,domain=0:6.28] {10*sin(deg(x))};
 \addlegendentry{Senoidal}
 
-\addplot[thick,dashed,domain=0:3.14] {10};
-\addplot[thick,dashed,domain=3.14:6.28] {-10};
+\addplot[thick,dashed] coordinates {(0,10) (3.14,10) (3.14,-10) (6.28,-10)};
 \addlegendentry{Quadrada}
 
-\addplot[thick,dotted,domain=0:1.57] {20*x/1.57-10};
-\addplot[thick,dotted,domain=1.57:4.71] {10-20*(x-1.57)/3.14};
-\addplot[thick,dotted,domain=4.71:6.28] {-10+20*(x-4.71)/1.57};
+\addplot[thick,dotted] coordinates {(0,-10) (1.57,10) (4.71,-10) (6.28,10)};
 \addlegendentry{Triangular}
 \end{axis}
 \end{tikzpicture}
@@ -331,7 +336,7 @@ Determine:
     \item o triângulo de potências correspondente.
 \end{enumerate}
 
-\item A curva abaixo representa o módulo da impedância de um circuito RLC série em função da frequência.
+\item Um circuito RLC série possui $R=20\,\Omega$, $L=100\,\mathrm{mH}$ e $C\approx101{,}3\,\mu\mathrm{F}$. A curva abaixo representa o módulo da impedância em função da frequência.
 
 \begin{center}
 \begin{tikzpicture}
@@ -341,27 +346,27 @@ Determine:
     axis lines=middle,
     xlabel={$f$ (Hz)},
     ylabel={$|Z|$ ($\Omega$)},
-    xmin=0,xmax=100,
-    ymin=0,ymax=75,
-    xtick={20,40,50,60,80,100},
-    ytick={20,40,60},
+    xmin=10,xmax=100,
+    ymin=0,ymax=90,
+    xtick={20,30,40,50,60,80,100},
+    ytick={20,40,60,80},
     grid=both,
-    samples=250
+    samples=300
 ]
-\addplot[thick,domain=5:95] {sqrt(20^2 + (0.8*(x-50))^2)};
+\addplot[thick,domain=15:100] {sqrt(20^2 + (2*pi*x*0.1 - 1/(2*pi*x*0.0001013))^2)};
 \draw[dashed] (axis cs:50,0) -- (axis cs:50,20);
-\node at (axis cs:53,27) {$f_0$};
+\node at (axis cs:54,27) {$f_0$};
 \end{axis}
 \end{tikzpicture}
 \end{center}
 
-Responda:
+A partir do circuito e do gráfico:
 \begin{enumerate}[label=\alph*)]
-    \item qual é aproximadamente a frequência de ressonância;
-    \item qual é aproximadamente o valor da resistência do circuito;
-    \item para $f<f_0$, o circuito é predominantemente indutivo ou capacitivo;
-    \item para $f>f_0$, o circuito é predominantemente indutivo ou capacitivo;
-    \item o que ocorre com a corrente na frequência de ressonância, mantendo a tensão de alimentação constante.
+    \item determine teoricamente a frequência de ressonância e compare com o mínimo da curva;
+    \item explique por que $|Z|$ assume seu menor valor na ressonância;
+    \item indique o comportamento do circuito para $f<f_0$ e para $f>f_0$;
+    \item determine a corrente na ressonância para uma alimentação de \SI{100}{V} RMS;
+    \item descreva o que ocorre com a corrente quando a frequência se afasta de $f_0$.
 \end{enumerate}
 
 \end{enumerate}
@@ -374,7 +379,7 @@ Responda:
 \item $I_R=1\angle0^\circ$ A; $I_L=2\angle-90^\circ$ A; $I_C=1\angle90^\circ$ A; $I_T=1-j1=1{,}414\angle-45^\circ$ A. $Y_{\rm eq}=0{,}01-j0{,}01$ S; $Z_{\rm eq}=50+j50=70{,}71\angle45^\circ\,\Omega$; FP $=0{,}707$ atrasado; carga indutiva.
 \item $X_C\approx30\,\Omega$; $Z\approx40-j30=50\angle-36{,}87^\circ\,\Omega$; $I\approx2\angle36{,}87^\circ$ A; $V_R\approx80$ V; $V_C\approx60$ V; FP $\approx0{,}80$ adiantado.
 \item $Z=30+j40=50\angle53{,}13^\circ\,\Omega$; $I=2\angle-53{,}13^\circ$ A; $P=120$ W; $Q=160$ var; $S=200$ VA; FP $=0{,}60$ atrasado. Triângulo: $P$ horizontal, $Q$ positivo vertical e $S$ como hipotenusa.
-\item $f_0\approx50$ Hz; $R\approx20\,\Omega$; abaixo de $f_0$ o circuito é capacitivo; acima de $f_0$ é indutivo; em $f_0$ a impedância é mínima e a corrente é máxima.
+\item $f_0=1/(2\pi\sqrt{LC})\approx50$ Hz, coincidindo com o mínimo da curva. Na ressonância, $X_L=X_C$ e $Z=R=20\,\Omega$. Para $f<f_0$, o circuito é capacitivo; para $f>f_0$, é indutivo. Com $V=100$ V, $I_0=100/20=5$ A. Ao se afastar de $f_0$, $|X_L-X_C|$ aumenta, elevando $|Z|$ e reduzindo a corrente.
 \end{enumerate}
 
 % ============================================================
@@ -390,14 +395,14 @@ Responda:
 \draw
 (0,0) node[ground]{}
 to[sV,l=$20\angle0^\circ$ V] (0,3)
-to[R,l=$5\,\Omega$] (3,3)
-node[circ,label=above:$A$] {}
-to[L,l=$j5\,\Omega$] (3,0)
-node[ground]{};
+to[R,l=$10\,\Omega$] (3,3)
+node[circ,label=above:$A$] {};
+\draw (3,3) to[R,l=$20\,\Omega$,i>^=$I_R$] (3,0) node[ground]{};
+\draw (3,3) -- (6,3) to[C,l=$-j10\,\Omega$,i>^=$I_C$] (6,0) node[ground]{};
 \end{circuitikz}
 \end{center}
 
-Em seguida, determine a corrente no resistor e a corrente no indutor.
+Determine também a corrente fornecida pela fonte e verifique a LKC no nó $A$.
 
 \item Determine as correntes de malha $I_1$ e $I_2$ para o circuito abaixo.
 
@@ -442,17 +447,18 @@ to[R,l_=$10\,\Omega$] (3,3);
 
 Calcule separadamente a contribuição de cada fonte antes de obter a resposta total.
 
-\item Determine o equivalente de Thévenin visto nos terminais $a$--$b$. Em seguida, conecte a carga $Z_L=5-j5\,\Omega$ e determine a corrente $I_L$.
+\item Determine o equivalente de Thévenin visto nos terminais $a$--$b$. Em seguida, conecte a carga $Z_L=5-j5\,\Omega$ e determine a corrente $I_L$ e a tensão $V_L$.
 
 \begin{center}
 \begin{circuitikz}
 \draw
 (0,0) to[sV,l_=$20\angle0^\circ$ V] (0,3)
-      to[R,l=$5\,\Omega$] (3,3)
-      to[L,l=$j5\,\Omega$] (6,3)
-      -- (7,3) node[circ,label=right:$a$]{};
+      to[R,l=$5\,\Omega$] (4,3)
+      -- (6,3) node[circ,label=right:$a$]{};
 \draw
-(0,0) -- (7,0) node[circ,label=right:$b$]{};
+(4,3) to[L,l=$j5\,\Omega$] (4,0);
+\draw
+(0,0) -- (6,0) node[circ,label=right:$b$]{};
 \end{circuitikz}
 \end{center}
 
@@ -508,11 +514,11 @@ Justifique a escolha e escreva as equações necessárias para determinar $V_A$ 
 \gabarito
 
 \begin{enumerate}[label=\textbf{3.\arabic*.}]
-\item $(V_A-20)/5+V_A/(j5)=0$. Logo $V_A=10+j10=14{,}14\angle45^\circ$ V. $I_R=(20-V_A)/5=2-j2$ A e $I_L=V_A/(j5)=2-j2$ A.
+\item $(V_A-20)/10+V_A/20+V_A/(-j10)=0$. Logo $V_A=(120-j80)/13\approx9{,}23-j6{,}15=11{,}09\angle-33{,}69^\circ$ V. $I_R=V_A/20\approx0{,}462-j0{,}308$ A, $I_C=V_A/(-j10)\approx0{,}615+j0{,}923$ A e $I_s=(20-V_A)/10\approx1{,}077+j0{,}615$ A. Confere: $I_s=I_R+I_C$.
 \item $(5+j5)I_1-j5I_2=10$ e $-j5I_1+(5+j5)I_2=0$. Assim, $I_1=1{,}2-j0{,}4$ A e $I_2=0{,}8+j0{,}4$ A. No ramo comum, $I_1-I_2=0{,}4-j0{,}8$ A.
 \item Com apenas $V_1$: $V_A^{(1)}=6{,}667$ V e $I_L^{(1)}=0{,}667$ A. Com apenas $V_2$: $V_A^{(2)}=j3{,}333$ V e $I_L^{(2)}=j0{,}333$ A. $I_L=0{,}667+j0{,}333=0{,}745\angle26{,}57^\circ$ A.
-\item Em circuito aberto não há corrente nos elementos em série, portanto $V_{\rm Th}=20\angle0^\circ$ V. Com a fonte anulada, $Z_{\rm Th}=5+j5\,\Omega$. Com $Z_L=5-j5\,\Omega$, $I_L=20/(10)=2\angle0^\circ$ A.
-\item A equação nodal é $(V_A-20)/10+(V_A-j10)/(-j10)+V_A/10=0$. Daí $V_A=4+j8=8{,}944\angle63{,}43^\circ$ V.
+\item $V_{\rm Th}=20\,j5/(5+j5)=10+j10=14{,}14\angle45^\circ$ V. Com a fonte anulada, $Z_{\rm Th}=5\parallel j5=2{,}5+j2{,}5\,\Omega$. Assim, $I_L=V_{\rm Th}/(Z_{\rm Th}+Z_L)=0{,}8+j1{,}6=1{,}789\angle63{,}43^\circ$ A e $V_L=I_LZ_L=12+j4=12{,}65\angle18{,}43^\circ$ V.
+\item A equação nodal é $(V_A-20)/10+(V_A-j10)/(-j10)+V_A/10=0$. Daí $V_A=4-j2=4{,}472\angle-26{,}57^\circ$ V.
 \item A análise nodal é mais conveniente. Equações possíveis:
 \[
 \frac{V_A-20}{10}+\frac{V_A}{20}+\frac{V_A-V_B}{j10}=0,
@@ -543,7 +549,7 @@ Determine:
     \item o fator de potência.
 \end{enumerate}
 
-Represente os dois fasores no plano abaixo.
+Adote uma escala conveniente e represente os dois fasores no plano abaixo.
 
 \begin{center}
 \begin{tikzpicture}[scale=0.95,>=Stealth]
@@ -560,7 +566,7 @@ Represente os dois fasores no plano abaixo.
 \underline B=6\angle90^\circ.
 \]
 
-Faça a soma nas formas retangular e polar e represente $\underline A$, $\underline B$ e o resultado no plano fasorial.
+Faça a soma nas formas retangular e polar. Em seguida, represente $\underline A$, $\underline B$ e o fasor resultante no plano fasorial, indicando o ângulo do resultado.
 
 \begin{center}
 \begin{tikzpicture}[scale=0.34,>=Stealth]
