@@ -1,14 +1,107 @@
-\documentclass{article}
-\usepackage{graphicx} % Required for inserting images
-
-\title{revisao de ca monofasico}
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage{lmodern,amsmath,amssymb,siunitx}
+\usepackage{geometry,enumitem,xcolor,fancyhdr,hyperref,tikz}
+\geometry{margin=2.3cm}
+\sisetup{output-decimal-marker={,}}
+\hypersetup{colorlinks=true,linkcolor=blue!45!black}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Revisão de Circuitos CA Monofásicos}
+\rhead{Eletroeletrônica}
+\cfoot{\thepage}
+\setlength{\headheight}{15pt}
+\setlist[enumerate]{leftmargin=*,itemsep=1.15em}
+\newcommand{\respostas}{\subsection*{\color{blue!45!black}Gabarito comentado}\addcontentsline{toc}{subsection}{Gabarito comentado}}
+\newcommand{\graus}{^\circ}
+\title{\textbf{Revisão de Circuitos CA Monofásicos}\\\large Lista de exercícios com gabarito por seção}
 \author{Francisco Viana}
-\date{October 2026}
-
+\date{Outubro de 2026}
 \begin{document}
-
 \maketitle
+\noindent\textbf{Orientações:} considere regime permanente senoidal e grandezas fasoriais em valores eficazes (RMS), salvo indicação contrária. Use $\pi\approx3{,}1416$ e apresente os procedimentos. Em $v(t)=V_p\cos(\omega t+\phi)$, o ângulo é dado em graus quando indicado por $^\circ$.
+\tableofcontents
+\newpage
 
-\section{Introduction}
+\section{Tipos de ondas}
+\begin{enumerate}[label=\textbf{1.\arabic*.}]
+\item Uma tensão é dada por $v(t)=170\sin(100\pi t)$ V. Determine amplitude, frequência angular, frequência, período e valor eficaz.
+\item Compare as formas de onda senoidal, quadrada simétrica e triangular simétrica. Qual é o valor eficaz de cada uma se todas possuem pico de \SI{12}{V} e média nula? Justifique.
+\item Um sinal retangular unipolar assume \SI{10}{V} durante 25\% do período e zero no restante. Determine valor médio e valor eficaz.
+\item Uma onda senoidal de \SI{60}{Hz} está adiantada de $45\graus$ em relação a outra da mesma frequência. Determine a diferença temporal correspondente e explique o significado do adiantamento.
+\item Uma tensão tem componente fundamental senoidal de \SI{10}{V} RMS e uma terceira harmônica de \SI{4}{V} RMS, sem componente contínua. Calcule o valor eficaz total e a distorção harmônica total (THD), considerando somente essas componentes.
+\item Para $v(t)=100\cos(200\pi t+30\graus)$ V e $i(t)=5\cos(200\pi t-20\graus)$ A, identifique o tipo de onda, a frequência e qual grandeza está adiantada. Calcule a defasagem.
+\end{enumerate}
+\respostas
+\begin{enumerate}[label=\textbf{1.\arabic*.}]
+\item $V_p=170$ V; $\omega=100\pi$ rad/s; $f=\omega/(2\pi)=50$ Hz; $T=1/f=20$ ms; $V_{\rm RMS}=170/\sqrt2\approx120{,}2$ V.
+\item Para pico $A=12$ V: senoidal $A/\sqrt2\approx8{,}49$ V; quadrada bipolar simétrica $A=12$ V; triangular bipolar simétrica $A/\sqrt3\approx6{,}93$ V. Os valores decorrem da integral do quadrado do sinal em um período.
+\item $V_{\rm med}=10(0{,}25)=2{,}5$ V e $V_{\rm RMS}=\sqrt{10^2(0{,}25)}=5$ V.
+\item $T=1/60\approx16{,}67$ ms e $\Delta t=(45/360)T\approx2{,}083$ ms. O sinal adiantado atinge a mesma fase antes do sinal de referência.
+\item $V_{\rm RMS}=\sqrt{10^2+4^2}=\sqrt{116}\approx10{,}77$ V. $\mathrm{THD}=V_3/V_1=4/10=40\%$.
+\item Ambas são senoidais de $f=200\pi/(2\pi)=100$ Hz; $\phi_v-\phi_i=30\graus-(-20\graus)=50\graus$. A tensão está adiantada de $50\graus$ em relação à corrente.
+\end{enumerate}
 
+\newpage
+\section{Circuitos RLC}
+\begin{enumerate}[label=\textbf{2.\arabic*.}]
+\item Em um circuito RLC série, $R=30\,\Omega$, $X_L=50\,\Omega$, $X_C=10\,\Omega$ e $V=100$ V RMS. Determine impedância complexa, módulo, corrente, fator de potência e caráter da carga.
+\item Um RLC série alimentado com \SI{120}{V} RMS a \SI{50}{Hz} tem $R=20\,\Omega$, $L=100$ mH e $C=100\,\mu$F. Calcule $X_L$, $X_C$, $Z$ e corrente RMS.
+\item Determine a frequência de ressonância de um RLC série com $L=100$ mH e $C=100\,\mu$F. O que ocorre com a impedância ideal na ressonância?
+\item Três ramos em paralelo recebem $100\angle0\graus$ V RMS: $R=100\,\Omega$, indutor ideal com $X_L=50\,\Omega$ e capacitor ideal com $X_C=100\,\Omega$. Determine as correntes dos ramos e a corrente total.
+\item Um circuito RC série tem $R=40\,\Omega$, $X_C=30\,\Omega$ e tensão RMS de \SI{100}{V}. Calcule impedância, corrente, ângulo da corrente em relação à tensão e fator de potência.
+\item Para o RLC série da questão 2.1, calcule as potências ativa $P$, reativa $Q$ e aparente $S$. Verifique a relação $S^2=P^2+Q^2$.
+\end{enumerate}
+\respostas
+\begin{enumerate}[label=\textbf{2.\arabic*.}]
+\item $Z=30+j(50-10)=30+j40=50\angle53{,}13\graus\,\Omega$; $I=100\angle0\graus/Z=2\angle-53{,}13\graus$ A; FP $=30/50=0{,}60$ atrasado; carga indutiva.
+\item $X_L=2\pi fL\approx31{,}42\,\Omega$; $X_C=1/(2\pi fC)\approx31{,}83\,\Omega$; $Z\approx20-j0{,}415\,\Omega$; $|Z|\approx20{,}004\,\Omega$ e $I\approx6{,}00$ A RMS (levemente adiantada).
+\item $f_0=1/(2\pi\sqrt{LC})\approx50{,}33$ Hz. Na ressonância $X_L=X_C$, portanto $Z=R$ e a corrente é máxima para tensão fixada, no modelo série ideal.
+\item $I_R=100/100=1\angle0\graus$ A; $I_L=100/(j50)=-j2$ A; $I_C=100/(-j100)=+j1$ A. $I_T=1-j1=\sqrt2\angle-45\graus$ A, logo $|I_T|\approx1{,}414$ A.
+\item $Z=40-j30=50\angle-36{,}87\graus\,\Omega$. $I=100/Z=2\angle+36{,}87\graus$ A. Corrente adiantada de $36{,}87\graus$ e FP $=0{,}80$ adiantado.
+\item Com $I=2$ A: $P=I^2R=4(30)=120$ W; $Q=I^2(X_L-X_C)=4(40)=160$ var (indutivo); $S=VI=200$ VA. Confere: $120^2+160^2=200^2$.
+\end{enumerate}
+
+\newpage
+\section{Métodos de análise}
+\noindent\textit{Em todas as questões, utilize fasores RMS e exponha as equações de circuito.}
+\begin{enumerate}[label=\textbf{3.\arabic*.}]
+\item \textbf{Análise nodal:} uma fonte de $20\angle0\graus$ V está ligada, por resistor de $5\,\Omega$, ao nó $A$. Entre $A$ e a referência há indutor de impedância $j5\,\Omega$. Determine $V_A$ por análise nodal.
+\item \textbf{Análise de malhas:} duas malhas no sentido horário compartilham resistor de $5\,\Omega$. A primeira tem mais um resistor de $5\,\Omega$ e fonte de $10\angle0\graus$ V orientada para impulsionar a corrente horária; a segunda tem mais um resistor de $5\,\Omega$ e nenhuma fonte. Obtenha $I_1$ e $I_2$ e a corrente no resistor compartilhado.
+\item \textbf{Superposição:} duas fontes ideais de tensão, $20\angle0\graus$ V e $10\angle90\graus$ V, estão em série e orientadas para somar suas tensões, alimentando um resistor de $10\,\Omega$. Calcule a corrente fasorial separando contribuições.
+\item \textbf{Thévenin:} uma rede vista pelos terminais de carga possui $V_{\rm Th}=20\angle0\graus$ V e $Z_{\rm Th}=5+j5\,\Omega$. Conecte $Z_L=5-j5\,\Omega$. Determine $I_L$ e $V_L$.
+\item \textbf{Análise nodal com duas fontes:} o nó $A$ liga-se a $20\angle0\graus$ V por um resistor de $10\,\Omega$ e a $10\angle90\graus$ V por outro de $10\,\Omega$. O nó também se conecta à referência por um terceiro resistor de $10\,\Omega$. Determine $V_A$.
+\item \textbf{Comparação de métodos:} explique quais hipóteses permitem usar superposição em regime senoidal, por que potência não pode ser somada diretamente por superposição e quando a análise nodal tende a ser mais prática que a análise de malhas.
+\end{enumerate}
+\respostas
+\begin{enumerate}[label=\textbf{3.\arabic*.}]
+\item Pela LKC: $(V_A-20)/5+V_A/(j5)=0$; multiplicando por 5, $V_A-20-jV_A=0$. Assim, $V_A=20/(1-j)=10+j10=14{,}14\angle45\graus$ V.
+\item Malhas: $10I_1-5I_2=10$ e $-5I_1+10I_2=0$. Da segunda, $I_1=2I_2$; substituindo, $I_2=2/3$ A e $I_1=4/3$ A. No ramo compartilhado, $I_1-I_2=2/3$ A no sentido da primeira malha.
+\item Correntes individuais: $I^{(1)}=20/10=2$ A e $I^{(2)}=j10/10=j1$ A; $I=2+j1=\sqrt5\angle26{,}57\graus\approx2{,}236\angle26{,}57\graus$ A.
+\item $I_L=V_{\rm Th}/(Z_{\rm Th}+Z_L)=20/(10)=2\angle0\graus$ A. $V_L=I_LZ_L=10-j10=14{,}14\angle-45\graus$ V.
+\item LKC: $(V_A-20)/10+(V_A-j10)/10+V_A/10=0$. Logo $3V_A=20+j10$, $V_A=6{,}667+j3{,}333\approx7{,}454\angle26{,}57\graus$ V.
+\item A superposição exige \textbf{linearidade} da rede; para fontes independentes com a mesma frequência, somam-se diretamente os fasores; com frequências diferentes, calcula-se cada resposta na respectiva frequência e somam-se sinais no tempo. Potência é quadrática ($p=vi$ ou $P=I^2R$) e não é, em geral, aditiva entre contribuições da mesma frequência. A análise nodal costuma exigir menos incógnitas quando existem poucos nós essenciais, enquanto malhas pode ser mais conveniente em circuitos planares com poucas malhas.
+\end{enumerate}
+
+\newpage
+\section{Diagrama fasorial}
+\begin{enumerate}[label=\textbf{4.\arabic*.}]
+\item Dados $v(t)=100\cos(\omega t+30\graus)$ V e $i(t)=5\cos(\omega t-20\graus)$ A, converta ambos para fasores RMS e determine a defasagem. Tome o cosseno como referência.
+\item Some graficamente (pelo método ponta-cauda) e analiticamente $A=10\angle0\graus$ e $B=10\angle90\graus$. Represente o resultado na forma polar.
+\item Em um circuito paralelo, a tensão é a referência. A corrente resistiva é $I_R=3\angle0\graus$ A e a indutiva é $I_L=4\angle-90\graus$ A. Calcule a corrente total, desenhe o diagrama fasorial e encontre o fator de potência.
+\item Em um RC série, escolha a corrente como referência. A tensão no resistor é $V_R=80\angle0\graus$ V e no capacitor é $V_C=60\angle-90\graus$ V. Determine a tensão total, seu ângulo e qual grandeza está adiantada.
+\item Duas senoides de \SI{50}{Hz} têm máximos correspondentes separados por \SI{2}{ms}. Qual a defasagem em graus? Pode-se afirmar qual sinal está adiantado apenas com o valor absoluto dessa separação temporal? Explique.
+\item Esboce e compare os diagramas fasoriais de R, L e C ideais alimentados pela mesma tensão $V=100\angle0\graus$ V. Utilize $R=50\,\Omega$, $X_L=50\,\Omega$ e $X_C=50\,\Omega$ para determinar as correntes.
+\end{enumerate}
+\respostas
+\begin{enumerate}[label=\textbf{4.\arabic*.}]
+\item $\underline V=(100/\sqrt2)\angle30\graus\approx70{,}71\angle30\graus$ V e $\underline I=(5/\sqrt2)\angle-20\graus\approx3{,}536\angle-20\graus$ A. A tensão adianta a corrente em $50\graus$.
+\item $A=10+j0$; $B=0+j10$; $A+B=10+j10=14{,}14\angle45\graus$. O vetor resultante é a diagonal no primeiro quadrante.
+\item $I_T=3-j4=5\angle-53{,}13\graus$ A. O vetor resistivo está no eixo real positivo, o indutivo aponta para baixo e a resultante fica no quarto quadrante. FP $=\cos53{,}13\graus=0{,}60$ atrasado.
+\item $V_T=80-j60=100\angle-36{,}87\graus$ V. Com $I$ em $0\graus$, a corrente está adiantada de $36{,}87\graus$ em relação à tensão total.
+\item $T=1/50=20$ ms, $\lvert\Delta\phi\rvert=360\graus(2/20)=36\graus$. Não: é preciso saber qual dos dois sinais alcança primeiro o máximo correspondente para atribuir o sinal da defasagem.
+\item $I_R=100/50=2\angle0\graus$ A (em fase com $V$); $I_L=100/(j50)=2\angle-90\graus$ A (atrasa); $I_C=100/(-j50)=2\angle+90\graus$ A (adianta). No diagrama com $V$ para a direita, $I_L$ aponta para baixo e $I_C$ para cima.
+\end{enumerate}
 \end{document}
